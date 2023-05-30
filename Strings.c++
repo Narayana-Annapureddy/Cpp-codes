@@ -105,6 +105,30 @@ int expand(string s, int left, int right) {
     return count;
 }
 
+string comPrefixInAllStrings(vector<string> &v) {
+
+    // Approach 1 time comp : O(N*M) is best if M is very small length
+    string prefix = v[0];
+    for (int i=0; i<v.size(); i++) {
+
+        int j=0;
+        while (j<v[i].size() && j<prefix.size() && v[i][j] == prefix[j])
+            j++;
+        prefix = prefix.substr(0, j);
+    }
+    return prefix;
+
+    // Approach 2 time comp : O(N*log N + M) is best if M is very large
+    sort(v.begin(), v.end());
+    int n = v.size()-1,  j = 0;
+
+    while (j < v[0].size() && j < v[n].size() && v[0][j] == v[n][j])
+        j++;
+
+    return v[0].substr(0, j);
+
+}
+
 // To check palindrome we can do it from the middle
 void totPalindromeStrings()  {
 
