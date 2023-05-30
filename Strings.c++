@@ -107,7 +107,7 @@ int expand(string s, int left, int right) {
 
 string comPrefixInAllStrings(vector<string> &v) {
 
-    // Approach 1 time comp : O(N*M) is best if M is very small length
+    // Approach 1 time comp : O(N*M) is best if M is very small length or n is very small
     string prefix = v[0];
     for (int i=0; i<v.size(); i++) {
 
@@ -118,7 +118,7 @@ string comPrefixInAllStrings(vector<string> &v) {
     }
     return prefix;
 
-    // Approach 2 time comp : O(N*log N + M) is best if M is very large
+    // Approach 2 time comp : O(N*log N * M + M) is best if n is very large data set
     sort(v.begin(), v.end());
     int n = v.size()-1,  j = 0;
 
@@ -127,6 +127,48 @@ string comPrefixInAllStrings(vector<string> &v) {
 
     return v[0].substr(0, j);
 
+}
+
+string decode(string &s) {
+
+    // 3[b2[ca]] = 3[bcaca] = bcacabcacabcaca
+
+    string res = "";
+    for (int i=0; i<s.size(); i++) {
+
+        if (s[i] == ']') {
+            
+            // extract string
+            string tempStr = "",  num = "";
+            while (res.back() != '[') {
+                tempStr += res.back();
+                res.pop_back();
+            }
+
+            // reverse the temp string
+            reverse(tempStr.begin(), tempStr.end());
+            res.pop_back();
+
+            // extract number
+            while (res.back() >= '0' && res.back() <= '9') {
+                num += res.back();
+                res.pop_back();
+            }
+            
+            // reverse the string in num format and convert to integer
+            reverse(num.begin(), num.end());
+            int number = stoi(num);
+
+            // Multiply with num times and add to res
+            while (number--) {
+                res += tempStr;
+            }
+        }
+        else
+            res.push_back(s[i]);
+    }
+
+    return res;
 }
 
 // To check palindrome we can do it from the middle
