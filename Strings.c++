@@ -10,7 +10,6 @@ using namespace std;
 // to access number we need to access individual digit by     int digit = s[index] - '0'
 // also supports push_back, pop_back, iterators (just like containers)
 
-
 void strOperations() {
     string name;   // or   char name[24]  i.e  string is array of characters;
     // cin >> name;   input lakshmi narayana  is considered as lakshmi (due to space)
@@ -85,7 +84,7 @@ void Ignore() {
 
 // Q:   Min time difference  ex:  [23:59, 00:00] the o/p is 1  (total time in min is 24*60 = 1440 min)
 //    First convert all the times to minutes  (23*60 + 59) min  and then sort the minutes
-//    ex:  [630, 508, 923, 1100, 1430]  now find adjacent value diff bcz  (a[1] - a[0] < a[2] - a[0])  always
+//    ex:  [630, 708, 923, 1100, 1430]  now find adjacent value diff bcz  (a[1] - a[0] < a[2] - a[0])  always
 //    In clock b/w two times there are two distances so check both of them for min distances  (23:59, 00:00)
 //    EDGE CASE:  if [0, 1439]  ans is 1 min but we get 1439  so find second distance i.e (1440 - (first distance))
 
@@ -103,6 +102,24 @@ int expand(string s, int left, int right) {
         right++;
     }
     return count;
+}
+
+// To check palindrome we can do it from the middle
+void totPalindromeStrings()  {
+
+    string s = "noon";
+    int totalCount = 0;
+
+    for (int center = 0; center < s.size(); center++) {
+        
+        int evenStrings = expand(s, center, center); 
+        totalCount += evenStrings;
+
+        int oddStrings = expand(s, center, center+1);
+        totalCount += oddStrings;
+    }
+    cout << totalCount;
+    
 }
 
 string comPrefixInAllStrings(vector<string> &v) {
@@ -150,7 +167,7 @@ string decode(string &s) {
             res.pop_back();
 
             // extract number
-            while (res.back() >= '0' && res.back() <= '9') {
+            while (!res.empty() && res.back() >= '0' && res.back() <= '9') {
                 num += res.back();
                 res.pop_back();
             }
@@ -171,23 +188,6 @@ string decode(string &s) {
     return res;
 }
 
-// To check palindrome we can do it from the middle
-void totPalindromeStrings()  {
-
-    string s = "noon";
-    int totalCount = 0;
-
-    for (int center = 0; center < s.size(); center++) {
-        
-        int evenStrings = expand(s, center, center); 
-        totalCount += evenStrings;
-
-        int oddStrings = expand(s, center, center+1);
-        totalCount += oddStrings;
-    }
-    cout << totalCount;
-    
-}
 
 void charPointer() {
 

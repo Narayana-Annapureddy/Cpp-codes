@@ -305,7 +305,7 @@ int search(vector<int>& a, int target) {
                 return mid;
             else if (a[l] <= a[mid]) {
                 // left sorted so check target in range of left sorted array
-                if (a[l] <= target && target <= a[mid])
+                if (a[l] <= target && target < a[mid])
                     // means in sorted range so do h = mid-1
                     h = mid-1;
                 else
@@ -313,7 +313,7 @@ int search(vector<int>& a, int target) {
             }
             else {
                 // right sorted so check target in range of right sorted array
-                if (a[mid] <= target && target <= a[h])
+                if (a[mid] < target && target <= a[h])
                     l = mid+1;
                 else
                     h = mid-1;

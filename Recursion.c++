@@ -35,6 +35,27 @@ void Reverse(string &s, int low, int high) {
     
 }
 
+void partitionIntoAlphabet(int n, string s, string &ds) {
+
+    if (n == s.size()) {
+        for (auto ele: ds)
+            cout << ele;
+        cout << endl;
+        return;
+    }
+
+    int num = 0;
+    for (int i=n; i<n+2 && i<s.size(); i++) {
+
+        char c = num * 10 + s[i] + 16;
+        if (isupper(c)) {
+            ds.push_back(c);
+            partitionIntoAlphabet(i+1, s, ds);
+            ds.pop_back();
+        }
+    }
+}
+
 void targetSum(vector<int> &v, vector<int> &ds, int n, int tar) {
 
     if (n == v.size()) {
