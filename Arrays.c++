@@ -22,6 +22,19 @@ void dyn_mem() {
     }
 }
 
+void iterativeGCD(int a, int b) {    //  Time comp :  O(log min(a, b)  base phi)
+
+    while (a > 0  &&  b > 0) {
+
+        if (a > b)     // The one which is longer do  (longer = longer % smaller)  everytime
+            a = a%b;
+        else
+            b = b%a;
+    }
+
+    a == 0 ? cout << b : cout << a;
+}
+
 long long sumOfDivisors(int N) {
 
     // i.e sumofDiv(1) + sumofDiv(2) + ... sumofDiv(N)
@@ -108,6 +121,136 @@ vector<int> spiralMatrix(vector<vector<int>>&m) {
     return ans;
 }
 
+vector<vector<int>> pascalTriangle(int numRows) {
+        
+    vector<vector<int>> res;
+    
+    for (int row=1; row<=numRows; row++) {
+        
+        vector<int> temp;
+        long long ans = 1;
+        for (int col = 1; col <= row; col++) {
+            
+            temp.push_back(ans);
+            ans = ans * (row-col) / col;
+        }
+        
+        res.push_back(temp);
+    }
+    
+    return res;
+}
+
+void threeSum() {
+
+    vector<int> v = {2, 3, -3, -2, 1, 1, -1, 2, 0};
+    sort(v.begin(), v.end());
+
+    for (int i=0; i<v.size(); i++) {
+        
+        while (i > 0 && v[i] == v[i-1])
+            i++;   // use continue statement for 'if block'
+
+        // As the right side part after index i is sorted we can use two pointer instead of hashing.
+        int left = i+1,  right = v.size()-1;
+        while (left < right)  {
+
+            int sum = v[i] + v[left] + v[right];
+            if (sum < 0)
+                left++;
+            else if (sum > 0)
+                right--;
+            else {
+
+                cout << v[i] << " " << v[left] << " " << v[right] << endl;
+                left++;
+                while (left < right && v[left] == v[left-1])
+                    left++;
+            }
+        }
+    }
+}
+
+void fourSum() {   // Same as three sum with i, j as constants where as i is constant in threeSum
+
+    vector<int> v = {1, 0, -1, 0, -2, 2};
+    sort(v.begin(), v.end());
+
+    for (int i=0; i<v.size(); i++) {
+
+        while (i != 0 && v[i] == v[i-1])
+            i++;
+        
+        for (int j=i+1; j<v.size(); j++) {
+
+            while (j != (i+1) && v[j] == v[j-1])
+                j++;
+
+            int left = j+1,  right = v.size()-1;
+            while (left < right) {
+
+                int sum = v[i] + v[j] + v[left] + v[right];
+
+                if (sum < 0)
+                    left++;
+                else if (sum > 0)
+                    right--;
+                else {
+                    cout << v[i] << " " << v[j] << " " << v[left] << " " << v[right] << endl;
+                    left++;
+                    right--;
+
+                    while (left < right && v[left] == v[left-1])
+                        left++;
+                }
+            }
+        }
+    }
+}
+
+vector<int> majorityElement(vector<int>& v) {
+    
+    int ele1 = 0,  ele2 = 1,  cnt1 = 0,  cnt2 = 0;
+    vector<int> ans;   // Take ele1 and ele2 as different values it will not be a problem
+    // Even if first ele is 0 then ele1 == v[i] is true so cnt is 1
+    
+    for (int i=0; i<v.size(); i++) {
+        
+        if (ele1 == v[i])
+            cnt1++;
+        else if (ele2 == v[i])
+            cnt2++;
+        else if (cnt1 == 0) {
+            ele1 = v[i];
+            cnt1 = 1;
+        }
+        else if (cnt2 == 0) {
+            ele2 = v[i];
+            cnt2 = 1;
+        }
+        else {
+            cnt1--;
+            cnt2--;
+        }
+    }
+    
+    cnt1 = 0,  cnt2 = 0;
+    for (int i=0; i<v.size(); i++) {
+        
+        if (ele1 == v[i])
+            cnt1++;
+        else if (ele2 == v[i])
+            cnt2++;
+    }
+    
+    if (cnt1 > v.size()/3)
+        ans.push_back(ele1);
+    if (cnt2 > v.size()/3)
+        ans.push_back(ele2);
+    
+    return ans;
+}
+
 vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr){
 	
 	int n = arr.size();
@@ -116,7 +259,7 @@ vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr){
 	int start = arr[0][0],  end = arr[0][1];
 
 	for (int i=1; i<n; i++) {
-		if (arr[i][0] <= end){
+		if (arr[i][0] <= end) {
 			if( arr[i][1] > end) 
 				end = arr[i][1];
 		}

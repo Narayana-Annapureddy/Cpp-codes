@@ -2,7 +2,7 @@
 using namespace std;
 
 // Turn off last set bit  n & (n-1);
-// For toggle use  ( n ^ (1 << 3))
+// For toggle use  ( n ^ (1 << i)) then it will toggle index i in number n
 // bitmask = bit+mask (mask with bit to represent something)
 
 void printIntInBin() {

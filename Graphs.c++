@@ -5,7 +5,7 @@ using namespace std;
 //      ii) In while loop pop the front node and add the child nodes into queue
 //          if they are not visited and while adding into queue mark the child node as visited.
 
-// dfs:   i) mark the current node as visited
+// dfs:   i) Recursion stack is used not external stack, mark the current node as visited
 //       ii) Call the dfs on all the child nodes if it is not visited.
 
 void graphImplementatio() {
@@ -74,7 +74,6 @@ vector<int> dfsOfGraph(int V, vector<int> adj[]) {
 
     return ans;
 }
-
 
 void bfsOnComponent(vector<list<int>> &graph, vector<int> &ans, vector<bool> &visited, int startNode) {
 

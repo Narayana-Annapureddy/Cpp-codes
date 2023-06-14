@@ -188,7 +188,6 @@ string decode(string &s) {
     return res;
 }
 
-
 void charPointer() {
 
     char a[9] = "narayana";

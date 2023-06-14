@@ -248,21 +248,26 @@ int peakIndexInMountainArray(vector<int>& arr) {
 }
 
 // min element in rotated sorted array
-int pivot_ind(vector<int> &a) {
-    // imagine graph always (two lines line1: index 0 to index (min)-1  and line2: index(min) to last ele)
-    // all the elements in line2 are less than first elmenent in line 1
-    // so if a[i]>a[0] means it is in line 1 otherwise it is in  line 2
-    int l=0, h=a.size()-1, mid;
-    if(a[l] <= a[h]) return a[0];  // line 0 fully sorted array
-    while(l<h) {
-        mid = l+(h-l)/2;
-        if (a[mid] >= a[0])  // line 1   even if mid is last element in first sorted array then new search
-            l = mid+1;       // will be fully sorted 2nd array.  (But it is not a problem ) just like line 0
-        else                 // ex: Dry run on {9, 23, 30, 56, 1, 2, 3} and {1, 2, 3}
-            h = mid;
+int pivot_ind(vector<int> &arr) {
+
+    int low = 0,  high = arr.size()-1,  ans = INT_MAX;
+    while (low <= high) {
+        
+        int mid = low + (high - low >> 1);
+        // To optimise use arr[low] <= arr[high] then ans = min (ans, arr[low]) and break the loop
+        
+        // check left sorted then ans is min of ans and low element and move to right side
+        if (arr[low] <= arr[mid]) {
+            ans = min (arr[low], ans);
+            low = mid+1;
+        }
+        else {  // means it is right sorted from mid to high
+            ans = min(arr[mid], ans);
+            high = mid-1;
+        }
     }
-    return a[l];
     
+    return ans;
 }
 
 // max element in rotated sorted array
@@ -303,7 +308,11 @@ int search(vector<int>& a, int target) {
             mid = l+(h-l)/2;
             if (a[mid] == target)
                 return mid;
-            else if (a[l] <= a[mid]) {
+
+            // if duplicates present for one case it fails i.e  [1, 2, 1, 1, 1]
+            // so check if arr[low] == arr[mid] == arr[high] and do low++, high-- and continue;
+
+            if (a[l] <= a[mid]) {
                 // left sorted so check target in range of left sorted array
                 if (a[l] <= target && target < a[mid])
                     // means in sorted range so do h = mid-1

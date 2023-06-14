@@ -301,7 +301,6 @@ bool isSudokuSafe(int row, int col, char c, vector<vector<char>> &board) {
     }
     return true;
 }
-    
 
 bool solve(vector<vector<char>>& board) {
     
